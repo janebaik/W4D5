@@ -32,22 +32,53 @@ def largest_contiguous_subsum(array)   # ==> O(n^3)
     subs.map {|sub| sub.sum }.max # 0(n^3)
 end
 
-def efficient_largest_sub_sum(array)
-current_sum = 0
-max_sum = 0
+# def efficient_largest_sub_sum(array)
+#     max_sum = 0
+#     array.inject do |accum, el| 
+#         accum += el 
+#         if accum > max_sum
+#             max_sum = accum 
+#         end
+#     end
+#     max_sum
+# end
+# list = [5, 3, -7, 900]
 
-    array.each_with_index do |num, idx|
-        current_sum = array[0..idx].sum
-            if current_sum < max_sum
-                max_sum = current_max_sum
-            end
+# p efficient_largest_sub_sum(list) # => 8
+
+def efficient_largest_sub_sum(array)
+    if array.first > 0 
+        max_sum = 0 
+        current_sum = 0 
+    else 
+        max_sum = array.first
+        current_sum = array.first
+    end
+    array.each do |num|
+        current_sum = current_sum + num
+        if current_sum < num
+            current_sum = num
+        end
+        if current_sum > max_sum
+            max_sum = current_sum
+        end
     end
     max_sum
 end
+list = [5, 3, -7]
+p efficient_largest_sub_sum(list) # => 8
+
+list = [2, 3, -6, 7, -6, 7]
+p efficient_largest_sub_sum(list) # => 8 (from [7, -6, 7])
+
+list = [-5, -1, -3]
+p efficient_largest_sub_sum(list) # => -1 (from [-1])
+
+
+
 
     # (0...array.length).inject(100) do |accum, num|
-list = [5, 3, -7]
-p largest_contiguous_subsum(list) # => 8
+# p largest_contiguous_subsum(list) # => 8
 
 # list = [2, 3, -6, 7, -6, 7]
 # p largest_contiguous_subsum(list) # => 8 (from [7, -6, 7])
